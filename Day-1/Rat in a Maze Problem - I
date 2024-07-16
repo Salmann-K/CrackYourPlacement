@@ -1,0 +1,29 @@
+class Solution {
+    public static ArrayList<String> findPath(int[][] m, int n) {
+    ArrayList<String> ans = new ArrayList<>();
+    boolean[][] vis = new boolean[n][n];
+    if (m[0][0] == 0) {
+        ans.add("-1");
+        return ans;
+    }
+    
+    dfs(m, n, ans, vis, 0, 0, "");
+    return ans;
+}
+
+public static void dfs(int[][] m, int n, ArrayList<String> ans, boolean[][] vis, int r, int c, String path) {
+    if (r == n - 1 && c == n - 1 && m[r][c] == 1) {
+        ans.add(path);
+        return;
+    }
+    if (r < 0 || r >= n || c < 0 || c >= n || m[r][c] == 0 || vis[r][c]) return;
+    
+    vis[r][c] = true;
+    
+    dfs(m, n, ans, vis, r + 1, c, path + "D");
+    dfs(m, n, ans, vis, r, c + 1, path + "R");
+    dfs(m, n, ans, vis, r - 1, c, path + "U");
+    dfs(m, n, ans, vis, r, c - 1, path + "L");
+    
+    vis[r][c] = false;
+}
