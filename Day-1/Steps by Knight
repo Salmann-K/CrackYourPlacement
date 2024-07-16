@@ -1,0 +1,41 @@
+ class Triplet{
+        int r,c,steps;
+        Triplet(int r,int c,int steps){
+            this.r=r;
+            this.c=c;
+            this.steps=steps;
+        }
+    }
+    
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {
+        boolean[][] vis=new boolean[N][N];
+        int kr=KnightPos[0]-1;
+        int kc=KnightPos[1]-1;
+        int tr=TargetPos[0]-1;
+        int tc=TargetPos[1]-1;
+        Queue<Triplet>q=new ArrayDeque<>();
+        q.add(new Triplet(kr,kc,0));
+        int r[]={2,1,-2,-1,2,1,-2,-1};
+        int c[]={1,2,-1,-2,-1,-2,1,2};
+        while(!q.isEmpty()){
+            Triplet temp=q.remove();
+            if(temp.r==tr && temp.c==tc){
+                return temp.steps;
+            }
+            for(int i=0;i<8;i++){
+                if(isValid(vis,temp.r+r[i],temp.c+c[i])){
+                    vis[temp.r+r[i]][temp.c+c[i]]=true;
+                    q.add(new Triplet(temp.r+r[i],temp.c+c[i],temp.steps+1));
+                }
+            }
+        }
+        return -1;
+    }
+    
+     public boolean isValid(boolean[][] vis,int r,int c){
+        if(r<0||r>=vis.length||c<0||c>=vis.length || vis[r][c]){
+            return false;
+        }
+        return true;
+    }
