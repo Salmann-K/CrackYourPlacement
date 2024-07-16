@@ -1,0 +1,33 @@
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        boolean [] vis = new boolean[V];
+        boolean [] pathvis = new boolean[V];
+        
+        for(int i=0; i<V; i++){
+            if(!vis[i]){
+                if(dfs(adj,i,vis,pathvis)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean dfs(ArrayList<ArrayList<Integer>> adj,int curr, boolean [] vis,boolean [] pathvis){
+        vis[curr]=true;
+        pathvis[curr]=true;
+        
+        for(int i=0; i<adj.get(curr).size(); i++){
+            int neigh = adj.get(curr).get(i);
+            
+            if(!vis[neigh]){
+                if(dfs(adj,neigh,vis,pathvis)){
+                    return true;
+                }
+            }else if(pathvis[neigh]){
+                return true;
+            }
+        }
+        
+        pathvis[curr]=false;
+        return false;
+    }
