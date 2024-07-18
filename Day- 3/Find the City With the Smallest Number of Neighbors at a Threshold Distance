@@ -1,0 +1,53 @@
+class Solution {
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        int [][] matrix = new int[n][n];
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if (i != j) {
+                    matrix[i][j] = (int)(1e9);
+                }else{
+                    matrix[i][j]=0;
+                }
+            }
+        }
+        
+        for(int i = 0; i < edges.length; i++){
+            int x = edges[i][0];
+            int y = edges[i][1];
+            int w = edges[i][2];
+            matrix[x][y] = w;
+            matrix[y][x] = w;
+        }
+
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    matrix[i][j] = Math.min(matrix[i][j], matrix[i][k] + matrix[k][j]);
+                }
+            }
+        }
+
+        int[] freq = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i != j && matrix[i][j] <= distanceThreshold) {
+                    freq[i]++;
+                }
+            }
+        }
+
+        int minCityCount = Integer.MAX_VALUE;
+        int resultCity = -1;
+        
+        for (int i = 0; i < n; i++) {
+            if (freq[i] <= minCityCount) {
+                minCityCount = freq[i];
+                resultCity = i;
+            }
+        }
+
+        return resultCity;
+    }
+}
