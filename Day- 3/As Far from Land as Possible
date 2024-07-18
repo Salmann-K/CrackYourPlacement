@@ -1,0 +1,51 @@
+import java.util.*;
+
+class Solution {
+    class Triplet {
+        int x;
+        int y;
+        int dist;
+
+        public Triplet(int x, int y, int dist) {
+            this.x = x;
+            this.y = y;
+            this.dist = dist;
+        }
+    }
+
+    int[] delrow = {-1, 1, 0, 0};
+    int[] delcol = {0, 0, -1, 1};
+
+    public int maxDistance(int[][] grid) {
+        int n = grid.length;
+        Queue<Triplet> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    q.add(new Triplet(i, j, 0));
+                }
+            }
+        }
+        if (q.size() == 0 || q.size() == n * n) return -1;
+        boolean[][] vis = new boolean[n][n];
+        int maxDist = -1;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Triplet curr = q.poll();
+                vis[curr.x][curr.y] = true;
+                for (int j = 0; j < 4; j++) {
+                    int nr = curr.x + delrow[j];
+                    int nc = curr.y + delcol[j];
+                    if (nr >= 0 && nr < n && nc >= 0 && nc < n && !vis[nr][nc] && grid[nr][nc] == 0) {
+                        q.add(new Triplet(nr, nc, curr.dist + 1));
+                        maxDist = Math.max(maxDist, curr.dist + 1);
+                        grid[nr][nc] = 1;
+                    }
+                }
+            }
+        }
+
+        return maxDist;
+    }
+}
