@@ -1,0 +1,47 @@
+class Solution {
+    public boolean isPossible(int N,int P, int[][] prerequisites)
+    {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i=0; i<N; i++){
+            adj.add(new ArrayList<>());
+        }
+        
+        for(int [] pq : prerequisites){
+            adj.get(pq[1]).add(pq[0]);
+        }
+        
+        int [] indeg = new int[N];
+        calcIndeg(adj,indeg,N);
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0; i<N; i++){
+            if(indeg[i]==0){
+                q.add(i);
+            }
+        }
+        
+        int count=0;
+        while(!q.isEmpty()){
+            int curr=q.poll();
+            count++;
+            for(int i=0; i<adj.get(curr).size(); i++){
+                int neigh=adj.get(curr).get(i);
+                indeg[neigh]--;
+                if(indeg[neigh]==0){
+                    q.add(neigh);
+                }
+            }
+        }
+        
+        return count==N;
+    }
+    
+    public void calcIndeg(ArrayList<ArrayList<Integer>> adj,int [] indeg,int N){
+        for(int i=0; i<N; i++){
+            for(int j=0; j<adj.get(i).size(); j++){
+                int neigh = adj.get(i).get(j);
+                indeg[neigh]++;
+            }
+        }
+    }
+    
+}
