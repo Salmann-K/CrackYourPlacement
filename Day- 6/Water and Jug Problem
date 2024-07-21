@@ -1,0 +1,48 @@
+ public boolean canMeasureWater(int x, int y, int target) {
+        if (x + y < target) return false;
+        
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        
+        queue.add(0);
+        visited.add(0);
+        
+        int[] directions = {x, -x, y, -y};
+        
+        while (!queue.isEmpty()) {
+            int curr = queue.poll();
+            
+            if (curr == target) return true;
+            
+            for (int direction : directions) {
+                int next = curr + direction;
+                
+                if (next == target) return true;
+                
+                if (next < 0 || next > x + y) continue;
+                
+                if (!visited.contains(next)) {
+                    visited.add(next);
+                    queue.add(next);
+                }
+            }
+        }
+        
+        return false;
+    }
+
+
+Optimal approach
+
+ public boolean canMeasureWater(int x, int y, int target) {
+        if (x + y < target) return false;
+        
+        if(x==target || y==target || x+y==target) return true;
+
+        return target%gcd(x,y)==0;
+    }
+
+    public int gcd(int a,int b){
+        if(b==0) return a;
+        else return gcd(b,a%b);
+    }
