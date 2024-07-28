@@ -1,0 +1,23 @@
+class Solution {
+    public boolean isValid(String s) {
+        HashMap<Character, Character> Hmap = new HashMap<Character, Character>();
+        Hmap.put(')','(');
+        Hmap.put('}','{');
+        Hmap.put(']','[');
+        Stack<Character> stack = new Stack<Character>();
+        for (int idx = 0; idx < s.length(); idx++){
+            char ch=s.charAt(idx);
+            if ( ch== '(' || ch == '{' || ch == '[') {
+                stack.push(ch);
+                continue;
+            }
+            if (stack.size() == 0 || Hmap.get(ch) != stack.pop()) {
+                return false;
+            }
+        }
+        if (stack.size() == 0) {
+            return true;
+        }
+        return false;
+    }
+}
