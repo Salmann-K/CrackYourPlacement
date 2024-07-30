@@ -1,0 +1,26 @@
+class Solution {
+  public TreeNode invertTree(TreeNode root) {
+    if (root == null) {
+        return null;
+    }
+    helper(root);
+    return root;
+}
+
+void helper(TreeNode node) {
+    if (node == null) {
+        return;
+    }
+
+    // Swap left and right children
+    TreeNode temp = node.left;
+    node.left = node.right;
+    node.right = temp;
+
+    // Recursively invert the left and right subtrees
+    helper(node.left);
+    helper(node.right);
+}
+
+
+}
