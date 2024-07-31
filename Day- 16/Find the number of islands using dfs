@@ -1,0 +1,33 @@
+
+class Solution {
+    // Function to find the number of islands.
+      public int numIslands(char[][] grid) {
+        int m=grid.length;
+        int ctn=0;
+        int n=grid[0].length;
+        boolean[][] visited=new boolean[m][n];
+
+        for (int i=0;i<m;i++){
+            for (int j=0;j<n;j++){
+                if (visited[i][j]==false && grid[i][j]=='1'){
+                    recurse(grid,visited,i,j,m,n);
+                    ctn++;
+                }
+            }
+        }
+        return ctn;
+    }
+    static void recurse(char[][] grid,boolean[][] visited,int r,int c,int m,int n){
+        if (r<0 || c<0 || r>=m || c>=n || visited[r][c]==true || grid[r][c]=='0') return;
+        visited[r][c]=true;
+        int[] delR={-1,0,1,0,-1,-1,1,1};
+        int[] delC={0,1,0,-1,-1,1,-1,1};
+        for (int i=0;i<8;i++){
+            int nr=r+delR[i];
+            int nc=c+delC[i];
+            recurse(grid,visited,nr,nc,m,n);
+
+        }
+    }
+    
+}
