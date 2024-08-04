@@ -1,0 +1,48 @@
+class Solution {
+    class Pair implements Comparable<Pair> {
+        int st;
+        int et;
+        
+        public Pair(int st, int et) {
+            this.st = st;
+            this.et = et;
+        }
+
+        @Override
+        public int compareTo(Pair p2) {
+            if (this.et == p2.et) {
+                return this.st - p2.st;
+            }
+            return this.et - p2.et;
+        }
+    }
+
+    public int eraseOverlapIntervals(int[][] intervals) {
+        if (intervals.length == 0) {
+            return 0;
+        }
+
+        // Convert intervals to an array of Pair objects
+        Pair[] pairs = new Pair[intervals.length];
+        for (int i = 0; i < intervals.length; i++) {
+            pairs[i] = new Pair(intervals[i][0], intervals[i][1]);
+        }
+
+        // Sort the pairs based on end times
+        Arrays.sort(pairs);
+
+        int count = 0;
+        int prevEnd = pairs[0].et;
+
+        // Iterate through the pairs and count overlaps
+        for (int i = 1; i < pairs.length; i++) {
+            if (pairs[i].st < prevEnd) {
+                count++;
+            } else {
+                prevEnd = pairs[i].et;
+            }
+        }
+
+        return count;
+    }
+}
