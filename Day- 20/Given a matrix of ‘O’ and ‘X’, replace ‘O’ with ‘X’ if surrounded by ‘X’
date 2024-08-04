@@ -1,0 +1,53 @@
+class Solution{
+    static char[][] fill(int n, int m, char a[][]) {
+    boolean[][] vis = new boolean[n][m];
+    
+    // Rows
+    for (int i = 0; i < m; i++) {
+        // Top
+        if (a[0][i] == 'O' && !vis[0][i]) {
+            dfs(a, vis, 0, i);
+        }
+        // Bottom
+        if (a[n - 1][i] == 'O' && !vis[n - 1][i]) {
+            dfs(a, vis, n - 1, i);
+        }
+    }
+    // Columns
+    for (int i = 0; i < n; i++) {
+        // Left
+        if (a[i][0] == 'O' && !vis[i][0]) {
+            dfs(a, vis, i, 0);
+        }
+        // Right
+        if (a[i][m - 1] == 'O' && !vis[i][m - 1]) {
+            dfs(a, vis, i, m - 1);
+        }
+    }
+    
+    // Flip surrounded regions
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (a[i][j] == 'O' && !vis[i][j]) {
+                a[i][j] = 'X';
+            }
+        }
+    }
+    
+    return a;
+}
+
+static void dfs(char[][] board, boolean[][] vis, int row, int col) {
+    vis[row][col] = true;
+    int[] delrow = {1, -1, 0, 0};
+    int[] delcol = {0, 0, -1, 1};
+    
+    for (int i = 0; i < 4; i++) {
+        int nrow = row + delrow[i];
+        int ncol = col + delcol[i];
+        if (nrow >= 0 && nrow < board.length && ncol >= 0 && ncol < board[0].length && board[nrow][ncol] == 'O' && !vis[nrow][ncol]) {
+            dfs(board, vis, nrow, ncol);
+        }
+    }
+}
+}
