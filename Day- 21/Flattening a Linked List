@@ -1,0 +1,35 @@
+class Solution {
+    Node mergeTwoLists(Node a, Node b) {
+        if (a == null) return b;
+        if (b == null) return a;
+
+        Node result;
+
+        if (a.data < b.data) {
+            result = a;
+            result.bottom = mergeTwoLists(a.bottom, b);
+        } else {
+            result = b;
+            result.bottom = mergeTwoLists(a, b.bottom);
+        }
+
+        return result;
+    }
+
+    // Function to flatten the linked list
+    Node flatten(Node root) {
+        if (root == null || root.next == null) {
+            return root;
+        }
+
+        // Recur for list on right
+        root.next = flatten(root.next);
+
+        // Now merge
+        root = mergeTwoLists(root, root.next);
+
+        // Return the root
+        // It will be in turn merged with its left
+        return root;
+    }
+}
