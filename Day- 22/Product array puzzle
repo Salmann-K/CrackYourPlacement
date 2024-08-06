@@ -1,0 +1,15 @@
+class Solution {
+    public static long[] productExceptSelf(int nums[]) {
+        long tp=1;
+        for(int i=0; i<nums.length; i++){
+            tp*=nums[i];
+        }
+        
+        long [] ans = new long[nums.length];
+        for(int i=0; i<nums.length; i++){
+            ans[i]=tp/nums[i];
+        }
+        
+        return ans;
+    }
+}
