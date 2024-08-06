@@ -1,0 +1,27 @@
+class Tree
+{
+    public static float findMedian(Node root)
+    {
+        ArrayList<Integer> al=new ArrayList<>();
+       inorder(root,al);
+       int n=al.size();
+        if(n%2==0) {
+            int mid1=al.get(n/2-1);
+            int mid2=al.get(n/2);
+            return (float) (mid1+mid2)/2;
+        } else {
+            return al.get((n-1)/2);
+        }
+    }
+    static void inorder(Node root,ArrayList<Integer> al)
+    {
+        
+        if(root==null)
+        return;
+        
+        inorder(root.left,al);
+        al.add(root.data);
+        inorder(root.right,al);
+        
+    }
+}
