@@ -1,0 +1,79 @@
+class Solution {
+ 
+public int findMaxForm(String[] strs, int m, int n) {
+    int[][][] dp = new int[strs.length + 1][m + 1][n + 1];
+
+    for (int i = 1; i <= strs.length; i++) {
+        int[] count = countZO(strs[i - 1]);
+        int zeros = count[0];
+        int ones = count[1];
+
+        for (int j = 0; j <= m; j++) {
+            for (int k = 0; k <= n; k++) {
+                if (j >= zeros && k >= ones) {
+                    dp[i][j][k] = Math.max(dp[i - 1][j][k], dp[i - 1][j - zeros][k - ones] + 1);
+                } else {
+                    dp[i][j][k] = dp[i - 1][j][k];
+                }
+            }
+        }
+    }
+
+    return dp[strs.length][m][n];
+}
+
+private int[] countZO(String s) {
+    int z = 0, o = 0;
+    for (char c : s.toCharArray()) {
+        if (c == '0') z++;
+        else o++;
+    }
+    return new int[]{z, o};
+}
+
+
+/*
+//Memoization
+public int findMaxForm(String[] strs, int m, int n) {
+    int[][][] memo = new int[strs.length][m + 1][n + 1];
+    return findMaxFormHelper(strs, m, n, strs.length - 1, memo);
+}
+
+private int findMaxFormHelper(String[] strs, int m, int n, int index, int[][][] memo) {
+    if (index < 0) {
+        return 0;
+    }
+    
+    if (memo[index][m][n] != 0) {
+        return memo[index][m][n];
+    }
+    
+    int[] count = countZO(strs[index]);
+    int zeros = count[0];
+    int ones = count[1];
+    
+    int notTake = findMaxFormHelper(strs, m, n, index - 1, memo);
+    
+    int take = 0;
+    if (m >= zeros && n >= ones) {
+        take = 1 + findMaxFormHelper(strs, m - zeros, n - ones, index - 1, memo);
+    }
+    
+    memo[index][m][n] = Math.max(take, notTake);
+    return memo[index][m][n];
+}
+
+
+
+private int[] countZO(String s) {
+    int z = 0, o = 0;
+    for (char c : s.toCharArray()) {
+        if (c == '0') z++;
+        else o++;
+    }
+    return new int[]{z, o};
+}
+
+
+*/
+}
