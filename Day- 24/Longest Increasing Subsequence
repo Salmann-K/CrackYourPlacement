@@ -1,0 +1,56 @@
+class Solution {
+
+      public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+
+        int maxLength = 0;
+        for (int length : dp) {
+            maxLength = Math.max(maxLength, length);
+        }
+
+        return maxLength;
+    }
+
+    /*
+    //Memoization
+        public int lengthOfLIS(int[] nums) {
+        int[][] memo = new int[nums.length][nums.length + 1];
+        for (int[] row : memo) {
+            Arrays.fill(row, -1);
+        }
+        return f(nums, nums.length - 1, nums.length, memo);
+    }
+
+    private int f(int[] nums, int index, int prevIndex, int[][] memo) {
+        if (index < 0) {
+            return 0;
+        }
+
+        if (memo[index][prevIndex] != -1) {
+            return memo[index][prevIndex];
+        }
+
+        int notTake = f(nums, index - 1, prevIndex, memo);
+        int take = 0;
+        if (prevIndex == nums.length || nums[index] < nums[prevIndex]) {
+            take = 1 + f(nums, index - 1, index, memo);
+        }
+
+        memo[index][prevIndex] = Math.max(take, notTake);
+        return memo[index][prevIndex];
+    }
+
+    */
+}
