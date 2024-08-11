@@ -1,0 +1,19 @@
+class Solution
+{
+    int ans=0;
+    //Function to count number of nodes in BST that lie in the given range.
+    int getCount(Node root,int l, int h)
+    {
+        inorder(root,l,h);
+        return ans;
+    }
+    
+    public void inorder(Node root,int l,int h){
+        if(root==null){
+            return;
+        }
+        inorder(root.left,l,h);
+        if(root.data>=l && root.data<=h) ans++;
+        inorder(root.right,l,h);
+    }
+}
