@@ -1,0 +1,28 @@
+
+class Solution {
+   public List<List<String>> Anagrams(String[] string_list) {
+    Map<String, List<String>> map = new LinkedHashMap<>();
+    
+    for (String s : string_list) {
+        char[] chars = s.toCharArray();
+        Arrays.sort(chars);
+        String sortedStr = new String(chars);
+        
+        if (!map.containsKey(sortedStr)) {
+            map.put(sortedStr, new ArrayList<>());
+        }
+        
+        map.get(sortedStr).add(s);
+    }
+
+    List<List<String>> result = new ArrayList<>(map.values());
+  
+    Collections.sort(result, new Comparator<List<String>>() {
+        public int compare(List<String> a, List<String> b) {
+            return a.get(0).compareTo(b.get(0));
+        }
+    });
+    
+    return result;
+}
+}
