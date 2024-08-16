@@ -1,0 +1,79 @@
+class Solution {
+
+    public int numDecodings(String s) {
+        int n = s.length();
+        if (n == 0) {
+            return 0;
+        }
+
+        int[] dp = new int[n + 1];
+        dp[n] = 1; 
+
+        for (int i = n - 1; i >= 0; i--) {
+            if (s.charAt(i) == '0') {
+                dp[i] = 0;
+            } else {
+                dp[i] += dp[i + 1];
+                if (i + 1 < n && Integer.parseInt(s.substring(i, i + 2)) <= 26) {
+                    dp[i] += dp[i + 2];
+                }
+            }
+        }
+
+        return dp[0];
+    }
+
+
+}
+
+/*
+    public int numDecodings(String s) {
+    if (s == null || s.length() == 0) return 0;
+    int [] dp = new int[s.length()+1];
+    Arrays.fill(dp,-1);
+    return f(s, 0,dp);
+}
+
+    public int f(String s, int index,int [] dp) {
+        if (index == s.length()) {
+            return 1; 
+        }
+        if(dp[index]!=-1){
+            return dp[index];
+        }
+        if (s.charAt(index) == '0') {
+            return 0; 
+        }
+        int ways = f(s, index + 1,dp);
+        if (index + 1 < s.length() && Integer.parseInt(s.substring(index, index + 2)) <= 26) {
+            ways += f(s, index + 2,dp);
+        }
+        dp[index]=ways;
+        return dp[index];
+    }
+    */
+
+/*
+private int f(String s, int index) {
+        // Base case: if the index reaches the end of the string
+        if (index == s.length()) {
+            return 1; // This is a valid decoding
+        }
+
+        // Check for leading zero
+        if (s.charAt(index) == '0') {
+            return 0; // This decoding is invalid
+        }
+
+        // Decode single digit
+        int ways = f(s, index + 1);
+
+        // Decode two digits if possible
+        if (index + 1 < s.length() && Integer.parseInt(s.substring(index, index + 2)) <= 26) {
+            ways += f(s, index + 2);
+        }
+
+        return ways;
+    }
+*/
+
