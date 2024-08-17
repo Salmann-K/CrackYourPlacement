@@ -1,0 +1,20 @@
+class Solution {
+   public List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> outer = new ArrayList<>();  // This will hold all subsets
+    outer.add(new ArrayList<>());  // Start with an empty subset: []
+
+    for (int num : nums) {  // Loop through each number in the array
+        List<List<Integer>> newSubsets = new ArrayList<>();  // To hold the new subsets that include the current number
+
+        for (List<Integer> subset : outer) {  // For each existing subset
+            List<Integer> newSubset = new ArrayList<>(subset);  // Create a copy of the current subset
+            newSubset.add(num);  // Add the current number to the new subset
+            newSubsets.add(newSubset);  // Add this new subset to the list of new subsets
+        }
+
+        outer.addAll(newSubsets);  // Add all new subsets to the main list of subsets
+    }
+    return outer;  // Return the list of all subsets
+}
+
+}
