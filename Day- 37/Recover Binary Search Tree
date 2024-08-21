@@ -1,0 +1,38 @@
+
+class Solution {
+    private TreeNode first = null;
+    private TreeNode second = null;
+    private TreeNode prev = null;
+
+    public void recoverTree(TreeNode root) {
+        inorderBST(root);
+
+        // Swap the values of the two incorrect nodes
+        int temp = first.val;
+        first.val = second.val;
+        second.val = temp;
+    }
+
+    private void inorderBST(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        // Traverse the left subtree
+        inorderBST(root.left);
+
+        // Check the current node with the previous one
+        if (prev != null && prev.val > root.val) {
+            if (first == null) {
+                first = prev;
+            }
+            second = root;
+        }
+
+        // Update prev node
+        prev = root;
+
+        // Traverse the right subtree
+        inorderBST(root.right);
+    }
+}
